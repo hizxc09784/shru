@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body async=true>
+    <style>
+
+      a {
+        color: #ed3c95
+      }
+      
+      body {
+  background-color: #344a72;
+  font-family: "Roboto", sans-serif;
+}
+      .login-box {
+  width: 360px;
+  height: 280px;
+  margin: auto;
+  border-radius: 3px;
+  background-color: white;
+}
+
+h1 {
+  text-align: center;
+  padding-top: 15px;
+}
+
+h4 {
+  text-align: center;
+}
+
+form {
+  width: 300px;
+  margin-left: 20px;
+}
+
+form label {
+  display: flex;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+form input {
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border: 1px solid gray;
+  border-radius: 6px;
+  outline: none;
+}
+input[type="button"] {
+  width: 320px;
+  height: 35px;
+  margin-top: 20px;
+  border: none;
+  background-color: #49c1a2;
+  color: white;
+  font-size: 18px;
+}
+p {
+  text-align: center;
+  padding-top: 20px;
+  font-size: 15px;
+}
+.para-2 {
+  text-align: center;
+  color: white;
+  font-size: 15px;
+  margin-top: -10px;
+}
+.rpp {
+  text-align: center;
+  color: white;
+  font-size: 15px;
+  margin-top: 10px;
+}
+.para-2 a {
+  color: #49c1a2;
+}
+
+      input[type="button"]:hover {
+  width: 320px;
+  height: 35px;
+  margin-top: 20px;
+  border: none;
+  background-color: #ff5722;
+  color: white;
+  font-size: 18px;
+}
+
+    </style>
+    <div class="login-box">
+      <h1>Login</h1>
+      <form>
+        <label>Email</label>
+        <input id="email" type="email" placeholder="" />
+        <label>Password</label>
+        <input id="password" type="password" placeholder="" />
+        <input onclick="func()" type="button" value="Submit" />
+        <p class="rpp"><a class="Highlight" href="/password_reset">Forgot Your Password ?</a></p>
+    <p class="para-2">
+      Not have an account? <a href="signup">Sign Up Here</a>
+    </p>
+      </form>
+      
+    </div>
+    
+
+      <link rel="stylesheet" href="/assests/css/alert.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+      <div class="alert hide">
+         <span class="fas fa-exclamation-circle"></span>
+         <span class="msg"><strong id="warn">{warnmsg}</strong></span>
+         <div onclick="removeWarn()" class="close-btn">
+            <span class="fas fa-times"></span>
+         </div>
+      </div>
+      <script>
+         
+      </script>
+    
+    <script>
+
+      function warn(msg) {
+           document.getElementById("warn").innerHTML = msg
+           $('.alert').addClass("show");
+           $('.alert').removeClass("hide");
+           $('.alert').addClass("showAlert");
+           setTimeout(function(){
+             $('.alert').removeClass("show");
+             $('.alert').addClass("hide");
+           },5000);
+         
+        }
+        
+        function removeWarn() {
+          $('.alert').removeClass("show");
+           $('.alert').addClass("hide");
+        }
+      
+      async function func() {
+        const email = document.getElementById("email")
+      const pass = document.getElementById("password")
+
+
+        
+
+        if (!email.value || !pass.value) {
+              return warn("Please Fill All The Fields")
+          
+        }
+        
+         await fetch("https://www.shru.ga/api/get_ip").then(async res => {
+    let r = await res.json()
+           console.log(r.ip)
+          await fetch(`https://www.shru.ga/api/accounts/get?accountemail=${email.value}`).then(async res1 => {
+
+              let r1 = await res1.json()
+           console.log(r1)
+
+
+            if (r1.account_status == "doesn't exist") {
+              return warn("this Account Doesn't exist")
+              }
+            
+
+            if (r1.account_data.pass != pass.value) {
+              return warn("Wrong Password")
+            }
+
+              if (r1.account_status == "exists") {
+                if (r1.account_data.pass == pass.value) {
+                  await fetch(`https://www.shru.ga/api/user/${r.ip}/login?account=${email.value}`).then(async res2 => {
+                    let ress2 = await res2.json()
+
+                    
+                  if (res2.status == 200) {
+                    location.assign("https://www.shru.ga/@me")
+                  }
+                })
+                } 
+              } else {
+              return warn("this Account Doesn't exist")
+              }
+      })
+        })
+        
+      }
+      
+    </script>
+  </body>
+</html>

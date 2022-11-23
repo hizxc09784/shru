@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Responsive Navbar</title>
+	<link rel="stylesheet" href="/assests/css/sidebar.css" />
+</head>
+<body>
+	<div class="app">
+		<div class="menu-toggle">
+			<div class="hamburger">
+				<span></span>
+			</div>
+		</div>
+
+		<aside class="sidebar">
+			<h3>Menu</h3>
+			
+			<nav class="menu">
+				<a href="/dashboard" class="menu-item is-active">Home</a>
+				<a href="?tab=url-shrinker" class="menu-item">Url Shorter</a>
+				<a href="?tab=url-control" class="menu-item">Url Control Dashboard</a>
+			</nav>
+
+		</aside>
+
+		<main class="content">
+        
+          <h1>Welcome, <strong id="name">name</strong></str></h1>
+			<p>test</p>
+		</main>
+	</div>
+
+	<script onload="await func()">
+		const menu_toggle = document.querySelector('.menu-toggle');
+		const sidebar = document.querySelector('.sidebar');
+    const name = document.getElementById("name")
+
+
+      
+    
+		menu_toggle.addEventListener('click', () => {
+			menu_toggle.classList.toggle('is-active');
+			sidebar.classList.toggle('is-active');
+		});
+
+    async function func() {
+      await fetch("https://www.shru.ga/api/get_ip").then(async r => {
+      let rdata = await r.json()
+
+      await fetch(`https://www.shru.ga/api/accounts/get?accountuser=${rdata.ip}`).then(async r2 => {
+        let r2data = await r2.json()
+
+        if (r2.account_status == "exists") {
+          name.innerHTML = `${r2.account_data.name}`
+        }
+      })
+    })
+    }
+    
+
+    
+	</script>
+</body>
+</html>

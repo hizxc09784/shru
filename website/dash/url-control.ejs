@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="/assests/css/sidebar2.css" />
+  <title>Document</title>
+</head>
+<body>
+
+          <div class="app">
+		<div class="menu-toggle">
+			<div class="hamburger">
+				<span></span>
+			</div>
+		</div>
+
+		<aside class="sidebar">
+			<h3>Menu</h3>
+			
+			<nav class="menu">
+				<a href="/dashboard" class="menu-item">Home</a>
+				<a href="?tab=url-shrinker" class="menu-item">Url Shorter</a>
+				<a href="?tab=url-control" class="menu-item is-active">Url Control Dashboard</a>
+			</nav>
+
+		</aside>
+
+		<main class="content">
+			<div class="container">
+    <h1>URL Control Dashboard</h1>
+    
+    <table class="table table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Full URL</th>
+          <th>Short URL</th>
+          <th>Clicks</th>
+          <th>Delete</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <% shortUrls.forEach(shortUrl => { %>
+          <tr>
+            <td><button class="btn btn-secondary"><a onclick="window.open(`<%= shortUrl.full %>`)"><%= shortUrl.full %></a></button></td>
+            <td><button class="btn btn-secondary"><a onclick="window.open(`https://www.shru.ga/<%= shortUrl.short %>`);"><%= shortUrl.short %></a></button></td>
+            <td><%= shortUrl.clicks %></td>
+            <td><button value="<%= shortUrl.short %>" class="btn btn-danger" id="deletebtn" onclick="func(`<%= shortUrl.short %>`)">Delete <%= shortUrl.short %></button></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+          
+          <script>
+
+          
+            
+           async function func(id) {
+             
+             await fetch(`https://www.shru.ga/api/redirect/delete?RedirectShortId=${id}`).then(async respnse => {
+                  let r = await respnse.json()
+
+               if (respnse.status == 200) {
+                 location.reload()
+               }
+
+                  
+                })
+           }
+            
+          </script>
+		</main>
+	</div>
+
+	<script>
+		const menu_toggle = document.querySelector('.menu-toggle');
+		const sidebar = document.querySelector('.sidebar');
+
+		menu_toggle.addEventListener('click', () => {
+			menu_toggle.classList.toggle('is-active');
+			sidebar.classList.toggle('is-active');
+		});
+	</script>
+</body>
+</html>

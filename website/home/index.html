@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>test</title>
+    <link rel="stylesheet" href="/assests/css/home.css">
+  </head>
+  <body>
+
+
+    <div class="imgdiv">
+      
+    </div>
+
+
+    
+    <ul>
+  <li><a href="/signup">Sign up</a></li>
+  <li><a href="/login">login</a></li>
+    </ul>
+
+    <script>
+       fetch("https://api.ipgeolocation.io/ipgeo?apiKey=f8e0b361e8f4405c94613ab534959fdf").then(async res => {
+         let r = await res.json()
+
+         fetch(`https://www.shru.ga/api/user/${r.ip}/check_login`)
+       })
+    </script>
+  </body>
+</htm>

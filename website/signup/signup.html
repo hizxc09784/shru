@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sign Up | By Code Info</title>
+    <link rel="stylesheet" href="/assests/css/signup.css"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="signup-box">
+      <h1>Sign Up</h1>
+      <h4>It's free and only takes a minute</h4>
+      <form>
+        <label>Name</label>
+        <input id="name" type="text" placeholder="" />
+        <label>Username</label>
+        <input id="username" type="text" placeholder="" />
+        <label>Email</label>
+        <input id="email" type="email" placeholder="" />
+        <label>Password</label>
+        <input id="password1" type="password" placeholder="" />
+        <label>Confirm Password</label>
+        <input id="password2" type="password" placeholder="" />
+        <input onclick="func()" type="button" value="Submit" />
+      </form>
+      <p>
+        By clicking the Sign Up button,you agree to our <br />
+        <a href="#">Terms and Condition</a> and <a href="#">Policy Privacy</a>
+      </p>
+    </div>
+    <p class="para-2">
+      Already have an account? <a href="login">Login here</a>
+    </p>
+    <script src="/assests/js/signup.js"></script>
+  </body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Warning Alert Notification</title>
+      <link rel="stylesheet" href="/assests/css/alert.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+   </head>
+   <body>
+      <div class="alert hide">
+         <span class="fas fa-exclamation-circle"></span>
+         <span class="msg"><strong id="warn">{warnmsg}</strong></span>
+         <div onclick="removeWarn()" class="close-btn">
+            <span class="fas fa-times"></span>
+         </div>
+      </div>
+      <script>
+         
+      </script>
+   </body>
+</html>

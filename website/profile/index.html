@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    
+  </head>
+  <body onload="func()">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="card">
+  <img id="avatar" src="" alt="John" style="width:100%">
+  <h1 class="name">{name}</h1>
+  <p class="title"></p>
+  <a href="#"><i class="fa fa-dribbble"></i></a>
+  <a href="#"><i class="fa fa-twitter"></i></a>
+  <a href="#"><i class="fa fa-linkedin"></i></a>
+  <a href="#"><i class="fa fa-facebook"></i></a>
+  <p><button>Contact</button></p>
+</div>
+    <style>
+      .card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+button:hover, a:hover {
+  opacity: 0.5;
+}
+    </style>
+    <script>
+      function generateCode() {
+        const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@$%^*';
+let token = '';
+for (let i = 0; i < 25; i++) {
+    token += characters[Math.floor(Math.random() * characters.length )];
+}
+        return token
+      }
+      
+      let avatar = document.getElementById("avatar")
+      let name = document.getElementsByClassName("name")[0]
+      document.getElementsByClassName("name")[0].addEventListener("load", async () => {
+         func()
+      })
+      document.getElementById("avatar").addEventListener("load", async () => {
+         func()
+      })
+
+      async function func() {
+
+       
+        await fetch("https://www.shru.ga/api/get_ip").then(async r => {
+          let resData = await r.json()
+
+          await fetch(`https://www.shru.ga/api/accounts/get?accountuser=${resData.ip}`).then(async r2 => {
+            let res2Data = await r2.json()
+
+            if (res2Data.account_status == "exists") {
+              let avatar = document.getElementById("avatar")
+
+              console.log(res2Data)
+              avatar.setAttribute("src", `${res2Data.account_data.userPublicInfo.profileImage}`)
+              console.log(`${res2Data.account_data.name}`)
+              name.innerHTML = `${res2Data.account_data.name}`
+            } else {
+              location.assign("https://www.shru.ga/signup")
+            }
+          })
+        })
+        
+
+        
+        
+      }
+    </script>
+  </body>
+</html>

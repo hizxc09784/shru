@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Material Design for Bootstrap</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="css/mdb.min.css" />
+  </head>
+  <body>
+    <!-- Start your project here-->
+    
+    <div class="card text-center" style="width: 300px;">
+      <div class="card-header h5 text-white bg-primary">Password Reset</div>
+      <div class="card-body px-5">
+          <p class="card-text py-2">
+              Enter your email address and we'll send you an email with instructions to reset your password.
+          </p>
+          <div class="form-outline">
+              <input type="email" id="typeEmail" class="form-control my-3" />
+              <label class="form-label" for="typeEmail">Email input</label>
+          </div>
+          <a href="#" onclick="func()" class="btn btn-primary w-100">Reset password</a>
+          <div class="d-flex justify-content-between mt-4">
+              <a class="" href="#">Login</a>
+              <a class="" href="#">Register</a>
+          </div>
+      </div>
+  </div>
+    <!-- End your project here-->
+
+    <!-- MDB -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+
+    <script>
+     function func() {
+      let newpass = document.getElementById("typeEmail")
+
+       let url = new URL(location.href)
+       let code = url.searchParams.get("code")
+
+       fetch(`https://www.shru.ga/api/tokens/get?token=${code}`).then(async res => {
+         let resinjson = await res.json()
+
+         let email = resinjson.data.email
+
+         fetch(`https://www.shru.ga/api/accounts/update?action=pass_update&accountemail=${email}&newpass=${newpass.value}`).then(async res2 => {
+         let res2injson = await res2.json()
+
+
+           if (res2.status == 200) {
+             fetch(`https://www.shru.ga/api/tokens/delete?token=${code}`).then(res3 => {
+               if (res3.status == 200) {
+                 location.assign("https://www.shru.ga")
+               }
+             })
+             
+           }
+         }) 
+       })
+     }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  
+  </body>
+</html>
