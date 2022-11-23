@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form>
+  Select image to upload:
+  <input type="file" name="fileToUpload" id="fileToUpload">
+  <input onclick="func1()" type="submit" value="Upload Image" id="fileSubmit" name="submit">
+</form>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/BrowserFS/2.0.0/browserfs.min.js"></script>
+<script>
+
+  // Installs globals onto window:
+  // * Buffer
+  // * require (monkey-patches if already defined)
+  // * process
+  // You can pass in an arbitrary object if you do not wish to pollute
+  // the global namespace.
+  BrowserFS.install(window);
+  // Configures BrowserFS to use the LocalStorage file system.
+  BrowserFS.configure({
+    fs: "LocalStorage"
+  }, function(e) {
+    if (e) {
+      // An error happened!
+      throw e;
+    }
+    // Otherwise, BrowserFS is ready-to-use!
+  });
+  
+  const fileInput = document.getElementById('fileToUpload');
+fileInput.onchange = () => {
+  const selectedFiles = [...fileInput.files];
+  for (const f of selectedFiles) {
+    const fs = require("fs")
+    console.log(f);
+    fs.writeFileSync("./image.png", f)
+  }
+}
+</script>
+</body>
+</html>
